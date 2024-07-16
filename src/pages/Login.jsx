@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const Login = () => {
+  const [method, setMethod] = useState('email');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [pin, setPin] = useState('');
   const [message, setMessage] = useState('');
 
@@ -11,7 +14,7 @@ const Login = () => {
     event.preventDefault();
 
     const loginData = {
-      email,
+      ...(method === 'email' ? { email } : { phone }),
       pin,
     };
 
@@ -20,6 +23,7 @@ const Login = () => {
       setMessage(response.data.message);
       // Store the JWT token in local storage or context
       localStorage.setItem('token', response.data.token);
+      toast.success('logged in successfully!')
     } catch (error) {
       setMessage(error.response.data.message);
     }
@@ -35,18 +39,45 @@ const Login = () => {
         <form onSubmit={handleSubmit} className="space-y-12">
           <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="block mb-2 text-sm">Email</label>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
+              <label className="block mb-2 text-sm">Login with</label>
+              <select
+                value={method}
+                onChange={(e) => setMethod(e.target.value)}
                 className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
-                required
-              />
+              >
+                <option value="email">Email</option>
+                <option value="phone">Phone</option>
+              </select>
             </div>
+            {method === 'email' ? (
+              <div>
+                <label htmlFor="email" className="block mb-2 text-sm">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
+                  required
+                />
+              </div>
+            ) : (
+              <div>
+                <label htmlFor="phone" className="block mb-2 text-sm">Phone Number</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  id="phone"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="Enter your phone number"
+                  className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
+                  required
+                />
+              </div>
+            )}
             <div>
               <label htmlFor="pin" className="block mb-2 text-sm">5-digit PIN</label>
               <input
@@ -60,7 +91,6 @@ const Login = () => {
                 required
               />
             </div>
-           
           </div>
           <div className="space-y-2">
             <div>
