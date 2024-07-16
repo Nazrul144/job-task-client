@@ -4,17 +4,17 @@ import axios from 'axios';
 import Swal from 'sweetalert2'
 
 const Register = () => {
-    const [method, setMethod] = useState('email'); // 'email' or 'phone'
+    const [method, setMethod] = useState('email');
     const [name, setName] = useState('');
     const [pin, setPin] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [pinError, setPinError] = useState('');
+    const [message, setMessage] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // PIN validation: must be a 5-digit number
         const pinPattern = /^[0-9]{5}$/;
         if (!pinPattern.test(pin)) {
             setPinError('PIN must be a 5-digit number');
@@ -29,21 +29,17 @@ const Register = () => {
             ...(method === 'email' ? { email } : { phone }),
         };
 
-        console.log('Registration Data:', registrationData);
-        
         try {
             const response = await axios.post('http://localhost:5000/api/register', registrationData);
-            console.log('Server Response:', response.data);
+            setMessage(response.data.message);
             if(response){
                 Swal.fire({
                     title: "user registered successfully!",
                     icon: "success"
                   });
             }
-            
         } catch (error) {
-            console.error('Error registering user:', error);
-            // Handle error (e.g., show an error message)
+            setMessage(error.response.data.message);
         }
     };
 
@@ -128,6 +124,7 @@ const Register = () => {
                         <div>
                             <button type="submit" className="w-full px-8 py-3 font-semibold rounded-md dark:bg-violet-600 dark:text-gray-50">Register</button>
                         </div>
+                        {message && <p className="text-center text-green-500">{message}</p>}
                         <p className="px-6 text-sm text-center dark:text-gray-600">
                             Already have an account?
                             <Link to="/login">
