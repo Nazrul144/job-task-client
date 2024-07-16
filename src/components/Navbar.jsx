@@ -3,10 +3,10 @@ import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
     const navItems = <>
-    <li><NavLink to='/'>Home</NavLink></li>
-    <li><NavLink to='login'>Login</NavLink></li>
-    <li><NavLink to='register'>Register</NavLink></li>
-    <li><NavLink to='dashboard'>Dashboard</NavLink></li>
+    <li className='text-xl'><NavLink to='/' className={({isActive})=> isActive? "text-green-400 font-bold" : ""}>Home</NavLink></li>
+    <li className='text-xl'><NavLink to='login' className={({isActive})=> isActive? "text-green-400 font-bold" : ""}>Login</NavLink></li>
+    <li className='text-xl'><NavLink to='register' className={({isActive})=> isActive? "text-green-400 font-bold" : ""}>Register</NavLink></li>
+    <li className='text-xl'><NavLink to='dashboard' className={({isActive})=> isActive? "text-green-400 font-bold" : ""}>Dashboard</NavLink></li>
     </>
     return (
         <div>
