@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -26,7 +27,7 @@ const Login = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="flex flex-col shadow-lg mt-16 max-w-md p-6 rounded-md sm:p-10 dark:bg-gray-100 dark:text-gray-800">
+      <div className="flex flex-col shadow-lg mt-16 w-96 p-2 rounded-md sm:p-10 dark:bg-gray-100 dark:text-gray-800">
         <div className="mb-8 text-center">
           <h1 className="my-3 text-4xl font-bold">Login</h1>
           <p className="text-sm dark:text-gray-600">Sign in to your account</p>
@@ -59,10 +60,12 @@ const Login = () => {
                 required
               />
             </div>
+           
           </div>
           <div className="space-y-2">
             <div>
-              <button type="submit" className="w-full px-8 py-3 font-semibold rounded-md dark:bg-violet-600 dark:text-gray-50">Login</button>
+              <button type="submit" className="w-full py-3 font-semibold rounded-md bg-sky-300 dark:text-gray-50">Login</button>
+                <Link to='/register' className='lg:ml-8 ml-16'>Don't have an account? <span className='text-green-500 font-bold'>Register</span></Link>
             </div>
             {message && <p className="text-center text-green-500">{message}</p>}
           </div>

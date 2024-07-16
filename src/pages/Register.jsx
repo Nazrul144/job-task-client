@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2'
+import { FaEye, FaEyeSlash, FaRegEyeSlash } from 'react-icons/fa';
 
 const Register = () => {
     const [method, setMethod] = useState('email');
@@ -11,6 +12,7 @@ const Register = () => {
     const [phone, setPhone] = useState('');
     const [pinError, setPinError] = useState('');
     const [message, setMessage] = useState('');
+    const [showPassword, setShowPassword] = useState(false)
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -32,11 +34,11 @@ const Register = () => {
         try {
             const response = await axios.post('http://localhost:5000/api/register', registrationData);
             setMessage(response.data.message);
-            if(response){
+            if (response) {
                 Swal.fire({
                     title: "user registered successfully!",
                     icon: "success"
-                  });
+                });
             }
         } catch (error) {
             setMessage(error.response.data.message);
@@ -65,10 +67,10 @@ const Register = () => {
                                 required
                             />
                         </div>
-                        <div>
+                        <div className='relative'>
                             <label htmlFor="pin" className="block mb-2 text-sm">5-digit PIN</label>
                             <input
-                                type="password"
+                                type={showPassword ? 'text' : 'password'}
                                 name="pin"
                                 id="pin"
                                 value={pin}
@@ -76,8 +78,16 @@ const Register = () => {
                                 placeholder="*****"
                                 className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
                                 required
+
                             />
                             {pinError && <p className="text-red-500 text-sm">{pinError}</p>}
+                            <div className='absolute top-[37px] right-3'>
+
+                                <span onClick={() => setShowPassword(!showPassword)}>
+                                    {showPassword ? <FaEyeSlash className='text-xl' /> : <FaEye className='text-xl' />}
+                                </span>
+
+                            </div>
                         </div>
                         <div>
                             <label className="block mb-2 text-sm">Register with</label>
@@ -122,13 +132,13 @@ const Register = () => {
                     </div>
                     <div className="space-y-2">
                         <div>
-                            <button type="submit" className="w-full px-8 py-3 font-semibold rounded-md dark:bg-violet-600 dark:text-gray-50">Register</button>
+                            <button type="submit" className="w-full px-8 py-3 font-semibold rounded-md bg-sky-400 dark:text-gray-50">Register</button>
                         </div>
                         {message && <p className="text-center text-green-500">{message}</p>}
                         <p className="px-6 text-sm text-center dark:text-gray-600">
                             Already have an account?
                             <Link to="/login">
-                                <button className="hover:underline dark:text-violet-600 font-bold">Sign in</button>
+                                <button className="hover:underline text-green-500 font-bold"> Sign in</button>
                             </Link>
                         </p>
                     </div>
