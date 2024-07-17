@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Swal from 'sweetalert2'
-import { FaEye, FaEyeSlash, FaRegEyeSlash } from 'react-icons/fa';
+import Swal from 'sweetalert2';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Register = () => {
     const [method, setMethod] = useState('email');
@@ -12,7 +12,7 @@ const Register = () => {
     const [phone, setPhone] = useState('');
     const [pinError, setPinError] = useState('');
     const [message, setMessage] = useState('');
-    const [showPassword, setShowPassword] = useState(false)
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -36,8 +36,8 @@ const Register = () => {
             setMessage(response.data.message);
             if (response) {
                 Swal.fire({
-                    title: "user registered successfully!",
-                    icon: "success"
+                    title: "User registered successfully!",
+                    icon: "success",
                 });
             }
         } catch (error) {
@@ -67,7 +67,7 @@ const Register = () => {
                                 required
                             />
                         </div>
-                        <div className='relative'>
+                        <div className="relative">
                             <label htmlFor="pin" className="block mb-2 text-sm">5-digit PIN</label>
                             <input
                                 type={showPassword ? 'text' : 'password'}
@@ -78,15 +78,12 @@ const Register = () => {
                                 placeholder="*****"
                                 className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
                                 required
-
                             />
                             {pinError && <p className="text-red-500 text-sm">{pinError}</p>}
-                            <div className='absolute top-[37px] right-3'>
-
+                            <div className="absolute top-[37px] right-3">
                                 <span onClick={() => setShowPassword(!showPassword)}>
-                                    {showPassword ? <FaEyeSlash className='text-xl' /> : <FaEye className='text-xl' />}
+                                    {showPassword ? <FaEyeSlash className="text-xl" /> : <FaEye className="text-xl" />}
                                 </span>
-
                             </div>
                         </div>
                         <div>

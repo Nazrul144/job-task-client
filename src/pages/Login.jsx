@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import Swal from 'sweetalert2'
 
 const Login = () => {
   const [method, setMethod] = useState('email');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [pin, setPin] = useState('');
-  const [message, setMessage] = useState('');
+  // const [message, setMessage] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -23,9 +24,15 @@ const Login = () => {
       setMessage(response.data.message);
       // Store the JWT token in local storage or context
       localStorage.setItem('token', response.data.token);
-      toast.success('logged in successfully!')
+      
+        toast.success('logged in successfully!')
+    
     } catch (error) {
-      setMessage(error.response.data.message);
+      if (error.response && error.response.data.message === 'Account not activated') {
+        toast.error('Account is not activated!');
+      } else {
+        toast.error('Login failed!');
+      }    
     }
   };
 
@@ -97,7 +104,7 @@ const Login = () => {
               <button type="submit" className="w-full py-3 font-semibold rounded-md bg-sky-300 dark:text-gray-50">Login</button>
                 <Link to='/register' className='lg:ml-8 ml-16'>Don't have an account? <span className='text-green-500 font-bold'>Register</span></Link>
             </div>
-            {message && <p className="text-center text-green-500">{message}</p>}
+            {/* {message && <p className="text-center text-green-500">{message}</p>} */}
           </div>
         </form>
       </div>
